@@ -50,10 +50,10 @@ Credits
 =======
 
 This script started as a simple conversion to fish of nave,
-written by Isaac Z. Schlueter [https://github.com/isaacs/nave]()
+written by Isaac Z. Schlueter [https://github.com/isaacs/nave][nave]
 
 Some ideas and/or code have been taken from nvm, written by
-Tim Caswell [https://github.com/creationix/nvm]()
+Tim Caswell [https://github.com/creationix/nvm][nvm]
 
 Some ideas might have been taken from rvm, rbenv and others.
 
