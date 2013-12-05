@@ -311,6 +311,14 @@ function nvf
         end
 
         set -l _version (__version $argv[1])
+        set -l bin $NVF_ROOT/$_version/bin
+
+        if contains $bin $PATH
+            if test $quiet -eq 0
+                echo Already using $_version
+            end
+            return
+        end
 
         which node > /dev/null
         and begin
@@ -353,8 +361,7 @@ function nvf
 
     function __nvf_init --no-scope-shadowing
         if test -f $NVF_DIR/default
-            set -l _version (__version (cat $NVF_DIR/default))
-            __nvf_local --quiet $_version
+            __nvf_local --quiet (cat $NVF_DIR/default)
         end
     end
 
