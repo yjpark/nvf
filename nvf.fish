@@ -359,12 +359,6 @@ function nvf
         and echo $_version > $NVF_DIR/default
     end
 
-    function __nvf_init --no-scope-shadowing
-        if test -f $NVF_DIR/default
-            __nvf_local --quiet (cat $NVF_DIR/default)
-        end
-    end
-
     function __nvf_clean --no-scope-shadowing
         if set -q $argv
             rm -rf $NVF_SRC/*
@@ -448,11 +442,6 @@ function nvf
         __get_versions | __sort_versions | __print_versions
     end
 
-    function __nvf_ls_all --no-scope-shadowing
-        __nvf_ls_remote
-        __nvf_ls
-    end
-
     function __nvf_help
         echo "
 Usage: nvf <command>
@@ -487,22 +476,39 @@ to uninstall nvf just delete ~/.nvf and ~/.config/fish/functions/nvf.fish
         return
     end
 
-    set -l command $argv[1]
-
-    switch $command
-        case ls-remote ls-all
-            set command (echo $command | sed 's/-/_/g')
-            set command __nvf_$command
-        case install uninstall clean ls local global init latest stable
-            set command __nvf_$command
-        case '*'
-            __nvf_help
-            return
-    end
-
     __ensure_dir $NVF_ROOT
     __ensure_dir $NVF_SRC
 
+    set -l command $argv[1]
     set -e argv[1]
-    eval $command $argv
+
+    switch $command
+        case init
+            if test -f $NVF_DIR/default
+                __nvf_local --quiet (cat $NVF_DIR/default)
+            end
+        case ls-all
+            __nvf_ls_remote
+            __nvf_ls
+        case ls-remote
+            __nvf_ls_remote
+        case ls
+            __nvf_ls
+        case latest
+            __nvf_latest
+        case stable
+            __nvf_stable
+        case local
+            __nvf_local $argv
+        case global
+            __nvf_global $argv
+        case uninstall
+            __nvf_uninstall $argv
+        case install
+            __nvf_install $argv
+        case clean
+            __nvf_clean $argv
+        case '*'
+            __nvf_help
+    end
 end
