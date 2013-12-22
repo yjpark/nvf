@@ -368,9 +368,9 @@ function nvf
             rm -rf $NVF_SRC/*
         else
             set -l _version (__version $argv[1])
-            set -l target $NVF_SRC/node-?$_version
+            set -l target $NVF_SRC/node-?$_version*
 
-            rm -rf $target $target.tar.gz
+            rm -rf $target
         end
     end
 
