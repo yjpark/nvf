@@ -121,8 +121,17 @@ function nvf
 
         set -l rsum (curl -s $url/SHASUMS.txt | grep $archive | awk '{print $1}')
         if test -z $rsum
-            echo Checksum not found for $archive
-            return 1
+            set -l rsum (curl -s $url/SHASUMS256.txt | grep $archive | awk '{print $1}')
+            if test -z $rsum
+                echo Checksum not found for $archive
+                return 1
+            else
+                set -l lsum (shasum -a 256 $NVF_SRC/$archive | awk '{print $1}')
+                if test $rsum != $lsum
+                    echo Checksums do not match
+                    return 1
+                end
+            end
         else
             set -l lsum (shasum $NVF_SRC/$archive | awk '{print $1}')
             if test $rsum != $lsum
