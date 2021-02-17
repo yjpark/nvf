@@ -58,7 +58,7 @@ function nvf
     end
 
     function __get_versions
-        __get -s http://nodejs.org/dist/
+        __get -s https://nodejs.org/dist/
     end
 
     function __sort_versions
@@ -194,11 +194,11 @@ function nvf
         # is the name of the file without the extension. let's try
         # not to download it again if we already have it
 
-        set remote "http://nodejs.org/dist/v$_version/node-v$_version.tar.gz"
+        set remote "https://nodejs.org/dist/v$_version/node-v$_version.tar.gz"
         # older versions without checksum
         set -l urls \
-            "http://nodejs.org/dist/node-v$_version.tar.gz" \
-            "http://nodejs.org/dist/node-$_version.tar.gz"
+            "https://nodejs.org/dist/node-v$_version.tar.gz" \
+            "https://nodejs.org/dist/node-$_version.tar.gz"
 
         __get_file $remote
         and __verify_checksum $remote
@@ -262,7 +262,7 @@ function nvf
         end
 
         set -l archive "node-v$_version-$os-$arch.tar.gz"
-        set -l remote "http://nodejs.org/dist/v$_version/$archive"
+        set -l remote "https://nodejs.org/dist/v$_version/$archive"
         set -l local $NVF_SRC/$archive
 
         # get the file and directly unpack it into ~/.nvf/installed/
